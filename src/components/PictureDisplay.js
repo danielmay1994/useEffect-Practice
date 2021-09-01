@@ -9,7 +9,7 @@ import feather7 from "../images/feather7.svg";
 import feather8 from "../images/feather8.svg";
 import feather9 from "../images/feather9.svg";
 import featherA from "../images/featherA.svg";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const feathers = [
   feather1,
@@ -27,7 +27,32 @@ const feathers = [
 function PictureDisplay({ size, featherCount, featherColors }) {
   useEffect(() => {
     console.log('PictureDisplay', size, featherCount, featherColors);
+
   },[size, featherCount, featherColors]);
+  const [sizeClass, setSizeClass] = useState('');
+
+  useEffect(()=> {
+    console.log('PictureDisplay size', size);
+    let cname = ''
+    // if what you click on is the case, then the cname is going to be set to medium
+    switch (size) {
+      case 'm':
+        cname = 'medium';
+        break;
+      case 'l':
+        cname = 'large';
+        break;
+      case 'xl':
+        cname = 'xlarge';
+        break;
+      default:
+        cname = 'small';
+        break;
+    }
+    console.log(cname);
+    // does not want to mutate the state, setSizeClass = cname
+    setSizeClass(cname);
+  },[size])
 
   // TODO: Wrap in useEffect
   const colors = [];
@@ -37,7 +62,7 @@ function PictureDisplay({ size, featherCount, featherColors }) {
   }
 
   return (
-    <div className={`image-area medium`}>
+    <div className={`image-area ${sizeClass}`}>
       {colors.map((c, i) =>
         <img src={feathers[i]} className={`image-feather ${c}`} alt="" />
       )}
